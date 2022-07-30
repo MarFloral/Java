@@ -1,5 +1,7 @@
 # Java微服务
 
+原名：OAK
+
 Java之父 詹姆斯·高斯林
 
 Oracle（神谕，甲骨文）
@@ -34,7 +36,7 @@ ME（平台微型版），移动端（智能设备）应用程序
 
 Java程序不是直接在操作系统之上运行，而是运行于JVM (java虚拟机)之上
 
-![img](C:\Users\Administrator\Desktop\xsjx\Typora图片\JVM与跨平台.png)
+![img](Typora图片\JVM与跨平台.png)
 
 Java源代码（java文件)经编译器编译成字节码(.class文件)，JVM本质上就是一个负责解释执行Java字节码的程序。
 
@@ -229,7 +231,7 @@ Java保留了const和goto关键字，但是没有使用。Java还保留了下面
 
 ### 	1、分类
 
-![](C:\Users\Administrator\Desktop\xsjx\Typora图片\Java数据类型.png)
+![](Typora图片\Java数据类型.png)
 
 ### 	2、整型(long,int,short,byte)
 
@@ -274,7 +276,8 @@ Java保留了const和goto关键字，但是没有使用。Java还保留了下面
 
 1.  char是16位，Java在内部使用16位的整数表示字符(Unicode编码）,char类型的范围0~65536。<!--char是无符号类型-->//全世界基本的语言符号基本都包含了
 2.  char也可以用作整数类型，可以将整型字面值赋给char类型的变量，可以在char类型上执行算术运算。
-3.  26个小写字母、26个大写字母、以及10个数字0-9，其编码是连续的。
+3.  26个小写字母、26个大写字母、以及10个数字0-9，其编码是连续的
+4.  ASCII：65=’A’    97=‘a’
 
 #### char类型字面值
 
@@ -373,7 +376,9 @@ boolean：false
 
 大类型转换为小类型
 
-
+```java
+类型 变量=(类型)变量;（类型兼容）
+```
 
 
 
@@ -490,7 +495,7 @@ x = y = z = 100;  // set x, y, and z to 100
 
 
 
-## 八、选择结构
+## 八、分支结构
 
 选择结构是通过分支语句实现的，分支语句有两种
 
@@ -591,8 +596,12 @@ do{
 ### 4、for
 
 ```java
-for(（默认初始值）;(boolean 值（不写默认true）);（boolean值的控制条件）){
+for(初始化语句（默认初始值）;循环条件(boolean 值（不写默认true）);迭代语句（boolean值的控制条件）){
     循环代码块;
+}
+
+for(;;){
+    死循环;
 }
 ```
 
@@ -618,4 +627,448 @@ break:终止直接包含的循环体，结束(本层）循环
 
 continue:终止本次循环，直接执行循环的下一次
 
-## 十、
+```java
+for(int i=0;i<10;i++){
+    for(int j=0;j<10;j++){
+        System.out.println(i+"-"+j);
+        if(j==4){
+            break;
+        }
+        System.out.println(j);
+    }	
+}
+// i=0    j=0,1,2,3,4
+//i=1
+```
+
+
+
+## 十、数组
+
+### 1、概念
+
+一组相同数据的**集合**
+
+### 2、数组的声明
+
+```java
+
+类型[] 数组名 = new 类型[数组长度];
+//静态声明
+int[] 数组名 = new int[数组长度];//最常用的方法
+int 数组名[] = new int[数组长度];//不推荐
+//动态声明
+int[] 数组名 = new int[]{初始值1,初始值2...};
+int[] 数组名 = {初始值1,初始值2...};
+
+int[] arr = new int[10];
+int arr2[] = new int[5];
+int[] arr3 = new int[]{};
+int[] arr4 ={};
+System.out.println(arr2.length);//对象.属性（方法）  获取数组的长度
+
+//赋值
+arr[0]=5;
+arr[9]=19;
+System.out.println(arr[5]);
+
+long[] arr1 = new long[5];
+arr1[0] = 5;//不用加L
+arr1[1] = 6;
+arr1[2] = 7;
+arr1[3] = 8;
+arr1[4] = 9;
+```
+
+==注：==
+
+1.  数组声明之后，不能再改变数组长度
+2.  数组中只能存储同类型的值
+
+不同类型在数组中的默认值：
+
+-   byte，short，int，long：0
+-   float，double：0.0
+-   boolean：false
+
+### 3、变量的内存（了解）
+
+![](Typora图片\变量内存.png)
+
+栈内存：局部变量，数组或者对象的名称		由虚拟机自动清除数据
+
+堆内存：全局变量，数组或者对象的实例		由垃圾回收机制（**==CG==**）定期扫描
+
+### 4、数组的最值与排序
+
+#### 	1、==冒泡排序==
+
+```java
+int[] arr = {12,78,5,9,34,1,8,6,35,101,5,75,65,-7};//14
+int temp;
+for (int i = 0; i < arr.length; i++) {//排序比较次数
+    for (int j = 1; j < arr.length-i; j++) {//下标
+        if (arr[j-1] > arr[j]) {
+            temp = arr[j-1];
+            arr[j-1] = arr[j];
+            arr[j] = temp;
+        }
+    }
+}
+```
+
+#### 	2、二分折半法
+
+```java
+int[] arr = {-7,1,5,5,6,8,9,12,34,35,65,75,78,101};
+int key = 12;
+int max = arr.length-1;
+int min = 0;
+int mid = (max+min)/2;
+boolean b = true;
+while(b){
+    if (key > arr[mid]) {
+        min = mid+1;
+        mid = (max+min)/2;
+    }else if (key < arr[mid]) {
+        max = mid-1;
+        mid = (max+min)/2;
+    }else if (key == arr[mid]) {
+        System.out.println("存在该数字，下标为"+mid);
+        break;
+    }
+    if (max < min) {
+        System.out.println("不存在该数字");
+        break;
+    }
+}
+```
+
+### 5、二维数组
+
+包含了多个一维数组
+
+```java
+int[][] arr = new int[][]{{1,2,3,5},{4,6},{7,8,9},{7}};
+int[][] arr2 = new int[3][4];	//二维数组长度为3，其中的一维数组长度为4，共计12个元素
+int arr3[][] = new int[3][];
+
+//赋值
+arr2[0][0] = 12;
+arr2[0][3] = 15;
+
+//查找输出
+System.out.println(arr[0][0]);
+for(int i = 0; i < arr.length; i++){
+    for(int i = 0; i < arr[i].length; i++){
+        System.out.print(arr[i][j]+" ");
+    }
+    System.out.println();
+}
+```
+
+### 6、快捷方法
+
+```java
+//排序方法（从小到大）
+Arrays.sort(arr);
+
+//以字符串形式输出
+System.out.println(Arrays.toString(arr));
+
+//获取随机数
+Random r = new Random();
+int a = r.nextInt(5);//包前不包后（在0-5之间随机取值，包括0但不包括5）
+int a2 = r.nextInt(900)+100;//随机三位数
+
+//查找(先排序)
+int a = Arrays.binarySearch(arr,7);//在数组arr中查找数字7，存在则输出下标，输出负值表示不存在
+```
+
+### 7、8、9、
+
+
+
+
+
+## 十一、==[面向对象](https://bbs.csdn.net/topics/392567100)==
+
+### 1、概念
+
+#### 面向对象(Object Oriented)
+
+是软件开发方法，一种编程范式。面向对象的概念和应用已超越了程序设计和软件开发，扩展到如数据库系统、交互式界面、应用结构、应用平台、分布式系统、网络管理结构、CAD技术、人工智能等领域。面向对象是一种对现实世界理解和抽象的方法，是计算机编程技术发展到一定阶段后的产物
+
+面向对象是相对于面向过程来讲的，面向对象方法，把相关的数据和方法组织为一个整体来看待，从更高的层次来进行系统建模，更贴近事物的自然运行模式
+
+#### 对象：
+
+是指具体的某一个事物，郎在现实生活中能够省得见携得着的事物。在疏向对象程序设计中，对象所指的是计算机系统中的某一个成分。在面向对象程序设计中，对象包含两个合义，其中一个是数据，另外一个是动作，对象则是数据和动作的结合体。对象不仅能够进行操作，同时还蜕够及时记录下换作结果
+
+协助理解：
+
+![](Typora图片\面向对象协助理解.png)
+
+对象来源：
+
+1.  官方底层代码（常见的）
+2.  第三方寻找（社区）
+3.  自己实现  类中创建
+
+### 2、类和对象
+
+类：是具有相同特性(数据元素)和行为(功能)的对象的抽象
+
+对象：类的抽象
+
+### 3、类和对象的创建
+
+==<u>**先创建类，才能创建对象！**</u>==
+
+```java
+类的成员属性：
+    修饰符 类型 属性名;
+对象类型 名称 = new 类;
+
+
+//写在实体类中，在main中调用：
+public class Person{		//创建类
+    public int id;			//编号（属性）
+    public String name;		//姓名（属性）
+    public int chinese;		//语文成绩（属性）
+    public int math;		//数学成绩（属性）
+    public int sum(){		//总成绩（方法）
+        return chinese+sum;
+    }
+}
+public class Test{
+    public static void main(String[] args){
+        Person p = new Person();//创建对象
+        p.id;//调用属性
+        p.sum();//调用方法
+    }
+}
+```
+
+### 4、方法
+
+#### 1）语法
+
+```java
+修饰符 返回类型 方法名(形参列表){
+    方法体;
+}
+
+public void userName(){
+    System.out.println(name)
+}
+public int avg(){
+    return (chinese+math)/2
+}
+```
+
+==注：==
+
+-   方法中定义变量称为局部变量。
+-   如果没有返回值，则方法的返回类型必须为void
+-   当方法有具体的返回类型时，则必须使用return语句返回一种值。
+-   **==设计方法时，只需要抓住两个要素:==**
+
+​						==**是否有返回值**==
+
+​						==**是否需要参数**==
+
+#### 2）方法的重载
+
+1.  方法名相同
+2.  参数类型与个数相同
+
+解决方法：
+
+1.  参数类型
+2.  参数个数
+3.  一般功能类似的方法方法名相同
+
+#### 3）方法的可变参数列表
+
+```java
+修饰符 返回类型 方法名(数组类型[] 参数名){// 必须先声明数组
+    方法体;
+}
+
+修饰符 返回类型 方法名(数组类型... 参数名){// 可以输入数组或数字
+    方法体;
+}
+
+public class Student{//实体类
+	public int sum(int... a){
+        int sum = 0;
+        for (int i = 0; i < a.length; i++) {
+            sum += a[i];
+        }
+        return sum;
+	}
+}
+public class Test {//测试类
+    public static void main(String[] args) {
+        Student student = new Student();
+		int[] arr = {1,2,3,4,5,6};
+		System.out.println(student.sum(arr));
+		System.out.println(student.sum(1,2,3,4,5,6));
+    }
+}
+```
+
+### 5、标准实体类
+
+private	私有化	私有的
+
+1.  私有属性
+2.  公有方法
+    -   set属性名（首字母大写）——设置成员值，有参数 没有返回值（命名规范）
+    -   get属性名（首字母大写）——获取成员值，没有参数 有返回值（命名规范）
+3.  构造方法
+
+```java
+public class Book {
+    private int id;//编号
+    private String name;//书名
+    private String author;//作者
+    private double price;//价格
+
+    public void setPrice(double pri) {//设置方法
+        price = pri;
+    }
+    public double getPrice() {//获取方法
+        return price;
+    }
+}
+```
+
+### 6、构造方法（==<u>方法名和类名相同</u>==）
+
+是用来初始化对象内部状态的特殊方法
+
+#### 1）==<u>特征</u>==
+
+1.  在Java语言中，每个类都至少有一个构造方法
+2.  虚拟机为每一个类默认提供一个空参构造方法，如果程序的设计者手动提供带参构造方法，那么原来默认提供的空参构造方法失效
+3.  构造方法的主要作用是完成对类对象的初始化工作
+4.  构造方法不能由编程人员显式地直接调用
+5.  构造方法没有返回类型
+6.  构造方法的方法名与类名相同
+
+#### 2）语法
+
+```java
+/*三种需要有的构造方法：
+带所有属性的构造方法
+除id外的构造方法
+空参构造方法*/
+
+访问修饰符 方法名(){}
+//说明：访问修饰符一般用public     方法名固定，都是类名
+
+快捷键：Alt+insert--Constructor
+    右键--Generate
+```
+
+### 7、this
+
+概念：代表调用者（类）本身
+
+作用：
+
+1.  区分局部变量和全局变量
+2.  调用本类中的其他方法（普通方法和构造方法）
+3.  在调用本类中其他构造方法时，必须写在第一行（第一个“;”前）
+
+```java
+public class Person {
+    private int id;
+    private String userName;
+    private String passWord;
+    private int age;
+
+    public Person() {
+    }
+
+    public Person(int id, String userName, String passWord, int age) {
+        this (userName,passWord,age);//调用构造方法
+//        this.id = id;
+//        this.userName = userName;
+//        this.passWord = passWord;
+        this.age = age;
+    }
+
+    public Person(String userName, String passWord, int age) {
+        this.userName = userName;
+        this.passWord = passWord;
+        this.age = age;
+    }
+
+    public int setId(int id) {
+        return this.id = id;
+    }
+    public void setUserName(int id) {
+        int a = this.setId(id);//调用普通方法
+        System.out.println(a);
+    }
+}
+```
+
+### 8、==特征==：封装
+
+私有的：private
+
+private 数据类型 属性名称
+
+需要set/get公有方法访问：
+
+-   set属性名首字母大写	无返回值	有参数
+-   get属性名首字母大写    有返回值    无参数
+
+### 9、单例设计模式
+
+私有化构造方法
+
+```java
+public class Person{
+    public static Person person = new Person();//在类的内部实例化对象
+    
+    private Person(){}//私有化构造方法
+    
+    public static Person getPerson(){//静态方法访问对象，可以让其他类调用Person
+        return person;
+    }
+}
+
+public class Test{
+    Person person = Person.gerPerson();
+    Person person1 = Person.getPerson();//访问对象方法
+    
+    System.out.println(person);
+    System.out.println(person1);//输出对象地址
+    
+    System.out.println(person == person1);//判断地址是否相同，其结果应为true
+}
+```
+
+### 10、static
+
+==static可以用来修饰属性,叫做静态属性，那么可以通过类名直接调用==，
+
+放在静态区一般用public static修饰
+
+如果一个变量被public static修饰，那一般还会有另外一个关键字final配合使用
+
+==static可以用来修饰方法,叫做静态方法，那么可以通过类名直接调用==
+
+static可以用来修饰类：
+
+-   （非）静态的方法可以访问静态的成员
+-   静态的方法不能访问非静态的成员
+
+### 11、12、13、14、
+
+## 十二、十三、
