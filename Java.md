@@ -157,7 +157,7 @@ public class 类名{
 
 每行功能代码以  “**;**”  作为结束符号
 
-空格没有实际意义，可以利用空格无意义，将代码合理缩进，易读0包含的代码称之为代码块，例如类if(){}、方法{}、类(}等等
+空格没有实际意义，可以利用空格无意义，将代码合理缩进，易读{}包含的代码称之为代码块，例如类if(){}、方法{}、类(}等等
 
 ### 3、标识符
 
@@ -835,16 +835,6 @@ int a = Arrays.binarySearch(arr,7);//在数组arr中查找数字7，存在则输
 
 ==<u>**先创建类，才能创建对象！**</u>==
 
-实体类：com.abc.beans
-
-测试类：com.abc.test
-
-接口类：com.abc.dao
-
-接口实现包：com.abc.dao.impl
-
-工具类：com.abc.util
-
 ```java
 类的成员属性：
     修饰符 类型 属性名;
@@ -869,6 +859,20 @@ public class Test{
     }
 }
 ```
+
+#### Java编程分层结构：
+
+实体类：com.abc.beans
+
+测试类：com.abc.test
+
+接口类：com.abc.dao
+
+接口实现包：com.abc.dao.impl
+
+工具类：com.abc.util
+
+<img src="Typora图片\Java分层结构.png" style="zoom:67%;" />
 
 ### 4、方法
 
