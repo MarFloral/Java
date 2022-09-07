@@ -14,6 +14,34 @@ EE（平台企业版），面向Internet的应用程序
 
 ME（平台微型版），移动端（智能设备）应用程序
 
+### JavaEE开发
+
+基于JavaWeb层面开发
+
+使用Java语言开发的基于浏览器（互联网）运行的项目
+
+#### 软件架构：
+
+1.  C/S	Client/Server客户端/服务器
+
+    -   优点:用户体验好
+    -   缺点:开发、测试、运行、维护..…
+
+2.  B/S	Browser/Server浏览器/服务器
+
+    ​		只需要有浏览器即可运行项目
+
+    -   优点;开发、测试、运行、维护比较方便
+
+    -   缺点:用户体验没有C/S架构好，对硬件要求比较高
+
+浏览器资源：
+
+-   静态资源：图片、音频、视频….
+-   动态资源：需要结合服务器来展示
+
+​		用户访问根据自己的特点，时间看到的效果不同
+
 ## 二、Java特点：
 
 面向对象（OOP）
@@ -1105,7 +1133,7 @@ public class Test{
 
 ==static可以用来修饰方法,叫做静态方法，那么可以通过类名直接调用==
 
-static可以用来修饰类：
+static可以用来修饰内部类：
 
 -   （非）静态的方法可以访问静态的成员
 -   静态的方法不能访问非静态的成员
@@ -3116,5 +3144,206 @@ delete from 表名 【where 条件】;
 
 ### 7、8、9、
 
-## 十八、十九、
+## 十八、I/O流
+
+1、
+
+**输入：外部源——>程序**
+
+**输出：程序——>输出目标（文件)**
+
+外部源和输出目标:磁盘文件、网络连接、内存缓存
+
+Java程序通过流执行I/O。流(stream)是一种抽象，它要么产生信息，要么使用信息。流通过Java的IO系统链接到物理设备。
+
+所有流的行为方式是相同的，尽管与它们链接的设备是不同的。因此，可以为任意类型的设备应用相同的IO类和方法。这意味着可以将许多不同类型的输入:磁盘文件、键盘或网络socket，抽象为一个输入流。反之，一个输出流可以引用控制台、磁盘文件或网络连接。流是一种处理输入/输出的清晰方式，例如，代码中的所有部分都不需要理解健盘和网络之间的区别。
+
+流是Java在由java.io包定义的类层次中实现的。
+
+-   System.in标准输入流对象：接收键盘输入
+-   System.out标准输出流对象：直接输出到控制台
+
+### 2、流
+
+#### 1）
+
+
+
+#### 2）流的分类
+
+Java中的流可以从不同的角度进行分类:
+
+-   按照流的方向不同：分为输入流和输出流。
+-   按照处理数据单位的不同：分为字节流（8位）和字符流（16位）。
+-   按照功能不同：分为节点流和处理流。
+
+节点流:是可以从一个特定的数据源〈节点）读写数据的流（例如文件，内存)。就像是一条单一的管子接到水龙头上开始放水。
+
+处理流:是“连接”在已经存在的流（节点流或处理流）之上，通过对数据的处理为程序提供更为强大的读写功能。
+
+##### 字节流
+
+```java
+package com.Mar.test;
+
+import java.io.*;
+
+public class Test {
+    public static void main(String[] args) throws IOException {
+        //字节流输出流
+        //创建好输出流对象，指定好文件，加true追加到后面，不写默认覆写
+        OutputStream os = new FileOutputStream("D:\\aaa.text",true);
+        //要写入的字符串
+        String string = "123松下问童子，言师采药去。只在此山中，云深不知处。";//写入文件吧字符串转换成字节数组
+        os.write(string.getBytes());
+        //关闭流
+        os.close();
+
+        //字节流输入流
+        InputStream in = new FileInputStream("D:\\aaa.text");
+        //一次性取多少个字节
+        byte[] bytes = new byte[1024];
+        //用来接收读取的字节数组
+        StringBuilder sb = new StringBuilder();
+        //读取到的字节数组长度，为-1时表示没有数据
+        int length = 0;
+        //循环取数据
+        while ((length = in.read(bytes)) != -1) {
+            //将读取的内容转换成字符串
+            sb.append(new String(bytes, 0, length));
+        }
+        //关闭流
+        in.close();
+        System.out.println(sb);
+    }
+}
+```
+
+##### 字符流
+
+```java
+package com.Mar.test;
+
+import java.io.*;
+
+public class Test02 {
+    public static void main(String[] args) throws IOException {
+        //字符输出流
+        //创建好输出流对象，指定好文件，加true追加到后面，不写默认覆写
+        FileWriter fileWriter = new FileWriter("D:\\bbb.text",true);
+        String string = "123松下问童子，言师采药去。只在此山中，云深不知处。";
+        fileWriter.write(string);
+        fileWriter.close();
+
+
+        //字符输入流
+//        InputStreamReader isr = new InputStreamReader (new FileInputStream(file),"UTF-8");
+        FileReader isr = new FileReader(  "D:\\bbb.text");
+        //字符数组:一次读取多少个字符
+        char[] chars = new char [1024];
+        //每次读取的字符数组先append到StringBui lder中
+        StringBuilder sb = new StringBuilder ();
+        //读取到的字符数组长度，为-1时表示没有数据
+        int length;
+        //循环取数据
+        while ((length = isr.read(chars)) !=-1) {
+            System.out.println(length);
+            //将读取的内容转换成字符串
+            sb.append(chars, 0, length);
+        }
+        isr.close();
+        System.out.println(sb);
+    }
+}
+```
+
+##### 字节流字符流转换
+
+```java
+package com.Mar.test;
+
+import java.io.*;
+
+public class Test02 {
+    public static void main(String[] args) throws IOException {
+        //字节流转换字符流
+        //输出
+        //字节流
+        OutputStream outputStream = new FileOutputStream( "D:\\ccc.txt", true);
+        //转换字符流
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
+        String string = "123松下问童子，言师采药去。只在此山中，云深不知处。";
+        outputStreamWriter.write(string);
+
+        //输入
+        FileInputStream filelnputStream = new FileInputStream( "D:\\a1.txt");
+        InputStreamReader inputStreamReader = new InputStreamReader(filelnputStream) ;
+    }
+}
+```
+
+##### 缓冲流
+
+```java
+package com.Mar.test;
+
+import java.io.*;
+
+public class Test02 {
+    public static void main(String[] args) throws IOException {
+        //缓冲流
+                Writer writer = new FileWriter("D:\\ddd.text");
+                BufferedWriter bufferedWriter = new BufferedWriter(writer);
+                bufferedWriter.write("12松下问童子");
+                bufferedWriter.newLine();//换行
+                bufferedWriter.write("123松下问童子");
+                bufferedWriter.newLine();
+                bufferedWriter.close();
+                writer.close();
+
+                BufferedReader bufferedReader = new BufferedReader(new FileReader("D:\\ddd.text"));
+                String str = null;
+                while ((str=bufferedReader.readLine()) != null){
+                    System.out. println(str);
+                }
+        //        String s = bufferedReader.readLine();
+        //        System.out.println(s);
+        //        String s1 = bufferedReader.readLine();
+        //        System.out.println(s1);
+        //        String s2 = bufferedReader.readLine();
+        //        System.out.println(s2);
+                bufferedReader.close();
+    }
+}
+```
+
+##### 读写图片
+
+```java
+package com.Mar.test;
+
+import java.io.*;
+
+public class Test02 {
+    public static void main(String[] args) throws IOException {
+        //读写图片
+        FileInputStream fileInputStream = new FileInputStream("D:\\123.jpg");
+        File file = new File("D:\\123.jpg");
+        int length =(int) file.length();
+        System.out.println(file.length());
+        byte[] bytes = new byte[length];
+        System.out.println(bytes.toString());
+        int read = fileInputStream.read(bytes);
+        System.out.println(read);
+        fileInputStream.read(bytes);
+        System.out.println(bytes. toString());
+        FileOutputStream fileOutputStream = new FileOutputStream( "D:\\12.jpg");
+        fileOutputStream.write(bytes,0,read);
+        fileOutputStream.close();
+        fileInputStream. close();
+    }
+}
+```
+
+## 十九、
 
