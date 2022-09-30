@@ -24,6 +24,12 @@ HTML 中的JavaScript 脚本必须位于\<script>\</script>标签之间。\<scri
 
 ### 1、输出语句
 
+1.  弹出警告框
+2.  将内容写到HTML文件中
+3.  写入到浏览器的控制台
+4.  输出带有判断的弹出框
+5.  输出提示框
+
 ```html
 <!--window.alert()-->
 <!DOCTYPE html>
@@ -42,6 +48,7 @@ HTML 中的JavaScript 脚本必须位于\<script>\</script>标签之间。\<scri
             
             //写入到浏览器的控制台 （类似日志功能）
             console.log("日志");
+            
             
             //输出带有判断的弹出框
             window.confirm();
@@ -95,9 +102,11 @@ HTML 中的JavaScript 脚本必须位于\<script>\</script>标签之间。\<scri
 		<input type="button" value="测试" onclick="fun()" />
 		<script>
 			function fun() {
+                //prompt(提示语句,默认值)
 				var name = prompt("我最喜欢的球员是：", "姚明");
 				if(name == null || name == "") {
 					var content_null = "该用户取消了输⼊"
+                    //输入框输出
 					document.write(content_null);
 				} else {
 					document.write(name + "⽜逼");
@@ -156,16 +165,16 @@ HTML 中的JavaScript 脚本必须位于\<script>\</script>标签之间。\<scri
 				}
 
 			}
-
-
-
+            
+            
+            //获取标签：通过属性name获取数组
 			var p = document.getElementsByTagName ("p");
 			console.log(p. length)
 			for (var i =0;i<p. length;i++){
 				console. log("检查"+ p[i].outerHTML)
 			}
 			
-			//获取标签
+			//获取标签：根据属性id获取单个值
 			var h1 =document.getElementById("h1")
 			console.log (h1);
 			var a=10.10;
@@ -216,4 +225,4 @@ HTML 中的JavaScript 脚本必须位于\<script>\</script>标签之间。\<scri
 
 
 
-## 三、四、五、六、七、八、
+## 三、四、
